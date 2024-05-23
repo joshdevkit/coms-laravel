@@ -21,10 +21,12 @@ class ManagerController extends Controller
         }
 
         $totalProjects = $projects->count();
-        $task = TaskList::where('project_id','=', $projectCount->id)->count();
+        $task = 0; // Initialize task count to 0
+
+        if ($projectCount) {
+            $task = TaskList::where('project_id', '=', $projectCount->id)->count();
+        }
+
         return view('manager.dashboard', compact('projects', 'totalProjects', 'task'));
     }
-
-
-
 }

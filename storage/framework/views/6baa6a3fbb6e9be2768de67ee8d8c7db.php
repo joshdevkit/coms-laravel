@@ -42,15 +42,32 @@
                                     <td><?php echo e($row->id); ?></td>
                                     <td><?php echo e($row->project_name); ?></td>
                                     <td>
-                                        <?php if($row->totalTasks > 0): ?>
-                                            <div class="progress">
-                                                <div class="progress-bar <?php echo e($row->totalPercentage >= 1 && $row->totalPercentage <= 10 ? 'bg-danger' : ($row->totalPercentage >= 11 && $row->totalPercentage <= 20 ? 'bg-warning' : ($row->totalPercentage >= 21 && $row->totalPercentage <= 40 ? 'bg-info' : 'bg-success'))); ?>" role="progressbar" style="width: <?php echo e($row->totalPercentage); ?>%;" aria-valuenow="<?php echo e($row->totalPercentage); ?>" aria-valuemin="0" aria-valuemax="100"><?php echo e($row->totalPercentage); ?>%</div>
-                                            </div>
+                                        <div class="progress">
+                                            <?php if($row->totalPercentage == 100): ?>
+                                                <div class="progress-bar bg-success" role="progressbar"
+                                                    style="width: 100%;" aria-valuenow="100" aria-valuemin="0"
+                                                    aria-valuemax="100">100%</div>
+                                            <?php else: ?>
+                                                <div class="progress-bar <?php echo e($row->totalPercentage >= 1 && $row->totalPercentage <= 10 ? 'bg-danger' : ($row->totalPercentage >= 11 && $row->totalPercentage <= 20 ? 'bg-warning' : ($row->totalPercentage >= 21 && $row->totalPercentage <= 40 ? 'bg-info' : 'bg-success'))); ?>"
+                                                    role="progressbar" style="width: <?php echo e($row->totalPercentage); ?>%;"
+                                                    aria-valuenow="<?php echo e($row->totalPercentage); ?>" aria-valuemin="0"
+                                                    aria-valuemax="100"><?php echo e($row->totalPercentage); ?>%</div>
+                                            <?php endif; ?>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <?php
+                                            $totalPercentage = $row->tasks->sum('percentage');
+                                            $completedTasks = $row->tasks->where('status', 'Done')->count();
+                                            $totalTasks = $row->tasks->count();
+                                        ?>
+
+                                        <?php if($completedTasks > 0 && $totalPercentage == 100): ?>
+                                            <span class="badge badge-sm bg-success">Finished</span>
                                         <?php else: ?>
-                                            0%
+                                            <span class="badge badge-sm bg-danger">Incomplete</span>
                                         <?php endif; ?>
                                     </td>
-                                    <td><?php echo e($row->status); ?></td>
                                     <td>
                                         <a href="<?php echo e(route('manager.project-details', ['id' => $row->id])); ?>" class="btn btn-sm btn-primary"><i class="fas fa-folder"></i> View</a>
                                     </td>

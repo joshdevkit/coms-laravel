@@ -5,21 +5,28 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Symfony\Component\HttpFoundation\Response;
 
 class IsManager
 {
     /**
      * Handle an incoming request.
      *
-     * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
+     * @param \Closure(\Illuminate\Http\Request): (\Illuminate\Http\Response|\Illuminate\Http\RedirectResponse) $next
      */
-    public function handle($request, Closure $next)
+    public function handle(Request $request, Closure $next)
     {
         if (Auth::check() && Auth::user()->type === 2) {
-            return $next($request);
+            if (Auth::user()->is_activated === 1 && Auth::user()->is_deleted === 0) {
+                return $next($request);
+            } elseif (Auth::user()->is_deleted === 1) {
+                Auth::logout(); // Logout the user if their account is deleted
+                return redirect()->route('login')->with('error', 'Your account has been disabled. Please contact the administrator.');
+            } else {
+                // Account is not activated
+                return redirect()->route('manager.update-once');
+            }
         }
 
-        return redirect('/manager/dashboard');
+        return redirect()->route('manager.dashboard');
     }
 }

@@ -36,10 +36,31 @@
                                 <tr>
                                     <td>{{ $row->id }}</td>
                                     <td>{{ $row->project_name }}</td>
-                                    <td></td>
-                                    <td>{{ $row->status }}</td>
+                                    <td>
+                                        <div class="progress">
+                                            @if ($row->totalPercentage == 100)
+                                                <div class="progress-bar bg-success" role="progressbar"
+                                                    style="width: 100%;" aria-valuenow="100" aria-valuemin="0"
+                                                    aria-valuemax="100">100%</div>
+                                            @else
+                                                <div class="progress-bar {{ $row->totalPercentage >= 1 && $row->totalPercentage <= 10 ? 'bg-danger' : ($row->totalPercentage >= 11 && $row->totalPercentage <= 20 ? 'bg-warning' : ($row->totalPercentage >= 21 && $row->totalPercentage <= 40 ? 'bg-info' : 'bg-success')) }}"
+                                                    role="progressbar" style="width: {{ $row->totalPercentage }}%;"
+                                                    aria-valuenow="{{ $row->totalPercentage }}" aria-valuemin="0"
+                                                    aria-valuemax="100">{{ $row->totalPercentage }}%</div>
+                                            @endif
+                                        </div>
+                                    </td>
+                                    <td>
+                                        @if ($row->totalPercentage == 100)
+                                            Finished
+                                        @else
+                                            {{ $row->status }}
+                                        @endif
+                                    </td>
                                     <td>
                                         <a href="{{ route('manager.project-details', ['id' => $row->id]) }}" class="btn btn-sm btn-primary"><i class="fas fa-folder"></i> View</a>
+                                        <a href="{{ route('manager.project-estimator', ['id' => $row->id]) }}" class="btn btn-sm btn-success"><i class="fas fa-plus"></i> Material Used</a>
+                                        <a href="{{ route('manager.project-files', ['id' => $row->id]) }}" class="btn btn-sm btn-info"><i class="fas fa-folder"></i> File Management</a>
                                     </td>
                                 </tr>
                                 @empty

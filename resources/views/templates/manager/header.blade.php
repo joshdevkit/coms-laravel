@@ -10,7 +10,7 @@
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
 <div class="wrapper">
-    @include('templates.admin.topbar')
+    @include('templates.manager.topbar')
         @include('templates.manager.sidebar')
         <div class="content-wrapper">
          @yield('content')

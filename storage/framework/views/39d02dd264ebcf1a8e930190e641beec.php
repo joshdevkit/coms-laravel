@@ -43,11 +43,11 @@
                             <div class="col-md-6">
                                 <dl>
                                     <dt><b class="border-bottom border-primary">Start Date</b></dt>
-                                    <dd><?php echo e(date('F m, Y', strtotime($details->start_date))); ?></dd>
+                                    <dd><?php echo e(date('F d, Y', strtotime($details->start_date))); ?></dd>
                                 </dl>
                                 <dl>
                                     <dt><b class="border-bottom border-primary">End Date</b></dt>
-                                    <dd><?php echo e(date('F m, Y', strtotime($details->end_date))); ?></dd>
+                                    <dd><?php echo e(date('F d, Y', strtotime($details->end_date))); ?></dd>
                                 </dl>
                                 <dl>
                                     <dt><b class="border-bottom border-primary">Status</b></dt>
@@ -63,7 +63,7 @@
                                         <?php elseif($details->status == 'Over Due'): ?>
                                             <span class='badge badge-danger'><?php echo e($details->status); ?></span>
                                         <?php elseif($details->status == 'Done'): ?>
-                                            <span class='badge badge-success'><?php echo e($details->status); ?></span>
+                                            <span class='badge badge-success'>Finished</span>
                                         <?php endif; ?>
                                     </dd>
 
@@ -74,8 +74,7 @@
 
                                         <div class="d-flex align-items-center mt-1">
                                             <img class="img-circle img-thumbnail p-0 shadow-sm border-info img-sm mr-3"
-                                                src="<?php echo e(asset($details->manager->avatar)); ?>"
-                                                alt="Avatar">
+                                                src="<?php echo e(asset($details->manager->avatar)); ?>" alt="Avatar">
                                             <b>Mr./Mrs. <?php echo e($details->manager->fullname); ?></b>
                                         </div>
                                     </dd>
@@ -84,8 +83,7 @@
 
                                         <div class="d-flex align-items-center mt-1">
                                             <img class="img-circle img-thumbnail p-0 shadow-sm border-info img-sm mr-3"
-                                                src="<?php echo e(asset($details->owner->avatar)); ?>"
-                                                alt="Avatar">
+                                                src="<?php echo e(asset($details->owner->avatar)); ?>" alt="Avatar">
                                             <b>Mr./Mrs. <?php echo e($details->owner->fullname); ?></b>
                                         </div>
 
@@ -109,8 +107,7 @@
                         <ul class="users-list clearfix">
                             <?php $__currentLoopData = $members; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $member): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                 <li>
-                                    <img class="w-50" style="height: 50px;"
-                                        src="<?php echo e(asset($member->members->avatar)); ?>"
+                                    <img class="w-50" style="height: 50px;" src="<?php echo e(asset($member->members->avatar)); ?>"
                                         alt="User Image">
                                     <p class="d-flex inline-block"><?php echo e($member->members->fullname); ?></p>
                                 </li>
@@ -173,6 +170,46 @@
                                             <td colspan="5" class="text-center">No Task Available</td>
                                         </tr>
                                     <?php endif; ?>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12 mt-3">
+                <div class="card">
+                    <div class="card-header">
+                        <h4>Productivity</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table id="example5" class="table table-condensed m-0 table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Submitted By</th>
+                                        <th>Subject</th>
+                                        <th>Description</th>
+                                        <th>Date</th>
+                                        <th>Start Time</th>
+                                        <th>End Time</th>
+                                        <th>Time Rendered</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php $__currentLoopData = $productivity; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $data): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                    <tr>
+                                        <td><?php echo e($data->id); ?></td>
+                                        <td><?php echo e($data->members->fullname); ?></td>
+                                        <td><?php echo e($data->subject); ?></td>
+                                        <td><?php echo e($data->description); ?></td>
+                                        <td><?php echo e($data->added_date); ?></td>
+                                        <td><?php echo e($data->start_time); ?></td>
+                                        <td><?php echo e($data->end_time); ?></td>
+                                        <td><?php echo e($data->time_rendered); ?></td>
+                                    </tr>
+                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+
                                 </tbody>
                             </table>
                         </div>

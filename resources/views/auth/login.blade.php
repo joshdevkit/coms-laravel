@@ -33,17 +33,28 @@
             <div class="row">
                 <div class="col-lg-10 offset-lg-1">
                     <h3 class="mb-3">CONSTRUCTION MANAGEMENT SYSTEM</h3>
+                    @if (session('error'))
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            {{ session('error') }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                aria-label="Close"></button>
+                        </div>
+                    @endif
                     <div class="bg-white shadow rounded">
                         <div class="row">
+
                             <div class="col-md-7 pe-0">
                                 <div class="form-left h-100 py-5 px-5">
                                     <form action="{{ route('login') }}" method="POST" class="row g-4">
                                         @csrf
                                         <div class="col-12">
-                                            <label for="email" class="form-label">Email Address<span class="text-danger">*</span></label>
+                                            <label for="email" class="form-label">Email Address<span
+                                                    class="text-danger">*</span></label>
                                             <div class="input-group">
                                                 <div class="input-group-text"><i class="bi bi-person-fill"></i></div>
-                                                <input type="email" id="email" name="email" class="form-control @error('email') is-invalid @enderror" placeholder="Enter Email" value="{{ old('email') }}">
+                                                <input type="email" id="email" name="email"
+                                                    class="form-control @error('email') is-invalid @enderror"
+                                                    placeholder="Enter Email" value="{{ old('email') }}">
                                                 @error('email')
                                                     <div class="invalid-feedback">{{ $message }}</div>
                                                 @enderror
@@ -51,10 +62,13 @@
                                         </div>
 
                                         <div class="col-12">
-                                            <label for="password" class="form-label">Password<span class="text-danger">*</span></label>
+                                            <label for="password" class="form-label">Password<span
+                                                    class="text-danger">*</span></label>
                                             <div class="input-group">
                                                 <div class="input-group-text"><i class="bi bi-lock-fill"></i></div>
-                                                <input type="password" id="password" name="password" class="form-control @error('password') is-invalid @enderror" placeholder="Enter Password">
+                                                <input type="password" id="password" name="password"
+                                                    class="form-control @error('password') is-invalid @enderror"
+                                                    placeholder="Enter Password">
                                                 @error('password')
                                                     <div class="invalid-feedback">{{ $message }}</div>
                                                 @enderror
@@ -63,17 +77,22 @@
 
                                         <div class="col-sm-6">
                                             <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" id="inlineFormCheck" name="remember">
-                                                <label class="form-check-label" for="inlineFormCheck">Remember me</label>
+                                                <input class="form-check-input" type="checkbox" id="inlineFormCheck"
+                                                    name="remember">
+                                                <label class="form-check-label" for="inlineFormCheck">Remember
+                                                    me</label>
                                             </div>
                                         </div>
 
                                         <div class="col-sm-6">
-                                            <a href="#" class="float-end text-primary">Forgot Password?</a>
+                                            <a href="{{ route('password.request') }}"
+                                                class="float-end text-primary">Forgot Password?</a>
                                         </div>
 
+
                                         <div class="col-12">
-                                            <button type="submit" class="btn btn-primary w-100 px-4 float-end mt-4">Login</button>
+                                            <button type="submit"
+                                                class="btn btn-primary w-100 px-4 float-end mt-4">Login</button>
                                         </div>
                                     </form>
                                 </div>

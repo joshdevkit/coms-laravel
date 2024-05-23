@@ -7,6 +7,7 @@ use App\Models\TaskList;
 use Illuminate\Contracts\Validation\Validator as ValidationValidator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+
 class TaskListController extends Controller
 {
     public function tasks()
@@ -36,12 +37,12 @@ class TaskListController extends Controller
         ]);
 
         return redirect()->back()->with(['success' => 'Record created successfully!', 'showModaladd' => true]);
-
     }
 
     public function retrieve($id)
     {
-        $details = TaskList::findOrfail($id);
+        $details = TaskList::with('taskfor')->findOrfail($id);
+
         return $details;
     }
 
@@ -65,7 +66,15 @@ class TaskListController extends Controller
         $task->save();
 
         return redirect()->back()->with(['message' => 'Task updated successfully', 'showModal' => true]);
+    }
 
 
+    public function delete($taskId)
+    {
+        $task = TaskList::findOrFail($taskId);
+
+        $task->delete();
+
+        return response()->json(['status'=> 200]);
     }
 }

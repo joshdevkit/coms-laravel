@@ -38,7 +38,8 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="" class="control-label">Name</label>
-                                <input type="text" value="{{ old('name') }}" class="form-control @error('name') is-invalid @enderror" name="name" value="">
+                                <input type="text" value="{{ old('name') }}"
+                                    class="form-control @error('name') is-invalid @enderror" name="name" value="">
                                 @error('name')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
@@ -47,10 +48,14 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="">Status</label>
-                                <select name="status" id="status" class="form-select form-control @error('status') is-invalid @enderror" value="{{ old('status') }}">
+                                <select name="status" id="status"
+                                    class="form-select form-control @error('status') is-invalid @enderror"
+                                    value="{{ old('status') }}">
                                     <option value="">Select Status</option>
-                                    <option value="Pending" {{ old('status') == 'Pending' ? 'selected' : '' }}>Pending</option>
-                                    <option value="On-hold" {{ old('status') == 'On-hold' ? 'selected' : '' }}>On-Hold</option>
+                                    <option value="Pending" {{ old('status') == 'Pending' ? 'selected' : '' }}>Pending
+                                    </option>
+                                    <option value="On-hold" {{ old('status') == 'On-hold' ? 'selected' : '' }}>On-Hold
+                                    </option>
                                 </select>
                                 @error('status')
                                     <div class="invalid-feedback">{{ $message }}</div>
@@ -60,10 +65,15 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="">Project Type</label>
-                                <select name="project_type" id="project_type" class="form-select form-control @error('project_type') is-invalid @enderror">
+                                <select name="project_type" id="project_type_dd"
+                                    class="form-select form-control @error('project_type') is-invalid @enderror">
                                     <option value="">Visualization of Type of Projects</option>
-                                    <option value="Vertical Type" {{ old('project_type') == 'Vertical Type' ? 'selected' : '' }}>Vertical Type</option>
-                                    <option value="Horizontal Type" {{ old('project_type') == 'Horizontal Type' ? 'selected' : '' }}>Horizontal Type</option>
+                                    <option value="Vertical Type"
+                                        {{ old('project_type') == 'Vertical Type' ? 'selected' : '' }}>Vertical Type
+                                    </option>
+                                    <option value="Horizontal Type"
+                                        {{ old('project_type') == 'Horizontal Type' ? 'selected' : '' }}>Horizontal Type
+                                    </option>
                                 </select>
                             </div>
                         </div>
@@ -79,22 +89,25 @@
                         <div class="col-md-6 d-none" id="for-length">
                             <div class="form-group">
                                 <label class="" for="">Lenght / km</label>
-                                <input type="text" name="length" class="form-control @error('length') is-invalid @enderror">
+                                <input type="text" name="length"
+                                    class="form-control @error('length') is-invalid @enderror">
                             </div>
                         </div>
                         <div class="col-md-6 d-none" id="for-storey">
                             <div class="form-group">
                                 <label class="" for="">Storey Clasification</label>
-                                <select name="storey" id="storey-dropdown" class="form-control form-select @error('storey') is-invalid @enderror">
+                                <select name="storey" id="storey-dropdown"
+                                    class="form-control form-select @error('storey') is-invalid @enderror">
 
 
                                 </select>
                             </div>
                         </div>
-                        <div class="col-md-6 d-none" id="budget">
+                        <div class="col-md-6" id="budget">
                             <div class="form-group">
                                 <label for="">Overall/ Total Budget</label>
-                                <input type="number" name="budget" class="form-control @error('budget') is-invalid @enderror">
+                                <input type="number" name="budget"
+                                    class="form-control @error('budget') is-invalid @enderror">
                                 @error('budget')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
@@ -105,18 +118,18 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="" class="control-label">Start Date</label>
-                                <input type="date" class="form-control @error('start_date') is-invalid @enderror" autocomplete="off" name="start_date"
-                                    value="">
-                                    @error('start_date')
-                                        <div class="invalid-feedback">{{ $message }}</div>
-                                    @enderror
+                                <input type="date" class="form-control @error('start_date') is-invalid @enderror"
+                                    autocomplete="off" name="start_date" value="">
+                                @error('start_date')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="" class="control-label">End Date</label>
-                                <input type="date" class="form-control @error('end_date') is-invalid @enderror" autocomplete="off" name="end_date"
-                                    value="">
+                                <input type="date" class="form-control @error('end_date') is-invalid @enderror"
+                                    autocomplete="off" name="end_date" value="">
                                 @error('end_date')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
@@ -127,21 +140,23 @@
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label for="" class="control-label">Project Manager</label>
-                                <select class="form-control select2 @error('manager_id') is-invalid @enderror" name="manager_id">
+                                <select class="form-control select2 @error('manager_id') is-invalid @enderror"
+                                    name="manager_id">
                                     <option value="">Select Project Manager</option>
                                     @foreach ($users as $row)
                                         <option value="{{ $row->id }}">{{ $row->fullname }}</option>
                                     @endforeach
                                 </select>
                                 @error('manager_id')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
                             </div>
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label for="" class="control-label">Project Owner</label>
-                                <select class="form-control select2  @error('owner_id') is-invalid @enderror" name="owner_id">
+                                <select class="form-control select2  @error('owner_id') is-invalid @enderror"
+                                    name="owner_id">
                                     <option value="">Select Project Owner</option>
                                     @foreach ($owners as $owner)
                                         <option value="{{ $owner->id }}">{{ $owner->fullname }}</option>
@@ -155,12 +170,17 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="" class="control-label">Project Members</label>
-                                <select class="form-control form-select @error('user_ids[]') is-invalid @enderror" multiple="multiple" name="user_ids[]"
-                                    id="projectMembersSelect">
+                                <select class="form-control form-select @error('user_ids[]') is-invalid @enderror"
+                                    multiple="multiple" name="user_ids[]" id="projectMembersSelect">
                                     <option value="">Select Project Members</option>
                                     @foreach ($members as $row)
-                                        <option value="{{ $row->id }}">{{ $row->fullname }}</option>
-                                    @endforeach
+                                    <option value="{{ $row->id }}">
+                                        {{ $row->fullname }} /
+                                        {{ $row->type == 2 ? 'Project Manager' : ($row->type == 3 ? 'Project Member' : 'Other') }}
+                                    </option>
+                                @endforeach
+
+
                                 </select>
                                 @error('user_ids[]')
                                     <div class="invalid-feedback">{{ $message }}</div>
@@ -172,7 +192,8 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="" class="control-label">Description</label>
-                                <textarea name="description" id="" cols="30" rows="3" class="summernote form-control @error('description') is-invalid @enderror">
+                                <textarea name="description" id="" cols="30" rows="3"
+                                    class="summernote form-control @error('description') is-invalid @enderror">
 
                                 </textarea>
                                 @error('description')
@@ -185,7 +206,8 @@
                             <div class="row">
                                 <div class="col-md-6 mb-3">
                                     <div class="form-group">
-                                        <select name="region" id="region" class="form-control form-select @error('region') is-invalid @enderror">
+                                        <select name="region" id="region"
+                                            class="form-control form-select @error('region') is-invalid @enderror">
 
                                         </select>
                                         <input type="hidden" name="region_text" id="region-text">
@@ -197,7 +219,8 @@
                                 </div>
                                 <div class="col-md-6 mb-3">
                                     <div class="form-group">
-                                        <select name="province" id="province" class="form-control form-select @error('province') is-invalid @enderror">
+                                        <select name="province" id="province"
+                                            class="form-control form-select @error('province') is-invalid @enderror">
 
                                         </select>
                                         <input type="hidden" name="province_text" id="province-text">
@@ -209,7 +232,8 @@
                                 </div>
                                 <div class="col-md-6 mb-3">
                                     <div class="form-group">
-                                        <select name="city" id="city" class="form-control form-select @error('city') is-invalid @enderror">
+                                        <select name="city" id="city"
+                                            class="form-control form-select @error('city') is-invalid @enderror">
 
                                         </select>
                                         <input type="hidden" name="city_text" id="city-text">
@@ -221,7 +245,8 @@
                                 </div>
                                 <div class="col-md-6 mb-3">
                                     <div class="form-group">
-                                        <select name="barangay" id="barangay" class="form-control form-select @error('barangay') is-invalid @enderror">
+                                        <select name="barangay" id="barangay"
+                                            class="form-control form-select @error('barangay') is-invalid @enderror">
 
                                         </select>
                                         <input type="hidden" name="barangay_text" id="barangay-text">
@@ -249,4 +274,7 @@
             </form>
         </div>
     </div>
+
+
+
 @endsection

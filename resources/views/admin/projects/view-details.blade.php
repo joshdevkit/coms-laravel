@@ -43,11 +43,11 @@
                             <div class="col-md-6">
                                 <dl>
                                     <dt><b class="border-bottom border-primary">Start Date</b></dt>
-                                    <dd>{{ date('F m, Y', strtotime($details->start_date)) }}</dd>
+                                    <dd>{{ date('F d, Y', strtotime($details->start_date)) }}</dd>
                                 </dl>
                                 <dl>
                                     <dt><b class="border-bottom border-primary">End Date</b></dt>
-                                    <dd>{{ date('F m, Y', strtotime($details->end_date)) }}</dd>
+                                    <dd>{{ date('F d, Y', strtotime($details->end_date)) }}</dd>
                                 </dl>
                                 <dl>
                                     <dt><b class="border-bottom border-primary">Status</b></dt>
@@ -63,7 +63,7 @@
                                         @elseif($details->status == 'Over Due')
                                             <span class='badge badge-danger'>{{ $details->status }}</span>
                                         @elseif($details->status == 'Done')
-                                            <span class='badge badge-success'>{{ $details->status }}</span>
+                                            <span class='badge badge-success'>Finished</span>
                                         @endif
                                     </dd>
 
@@ -74,8 +74,7 @@
 
                                         <div class="d-flex align-items-center mt-1">
                                             <img class="img-circle img-thumbnail p-0 shadow-sm border-info img-sm mr-3"
-                                                src="{{ asset($details->manager->avatar) }}"
-                                                alt="Avatar">
+                                                src="{{ asset($details->manager->avatar) }}" alt="Avatar">
                                             <b>Mr./Mrs. {{ $details->manager->fullname }}</b>
                                         </div>
                                     </dd>
@@ -84,8 +83,7 @@
 
                                         <div class="d-flex align-items-center mt-1">
                                             <img class="img-circle img-thumbnail p-0 shadow-sm border-info img-sm mr-3"
-                                                src="{{ asset($details->owner->avatar) }}"
-                                                alt="Avatar">
+                                                src="{{ asset($details->owner->avatar) }}" alt="Avatar">
                                             <b>Mr./Mrs. {{ $details->owner->fullname }}</b>
                                         </div>
 
@@ -109,8 +107,7 @@
                         <ul class="users-list clearfix">
                             @foreach ($members as $member)
                                 <li>
-                                    <img class="w-50" style="height: 50px;"
-                                        src="{{ asset($member->members->avatar) }}"
+                                    <img class="w-50" style="height: 50px;" src="{{ asset($member->members->avatar) }}"
                                         alt="User Image">
                                     <p class="d-flex inline-block">{{ $member->members->fullname }}</p>
                                 </li>
@@ -173,6 +170,46 @@
                                             <td colspan="5" class="text-center">No Task Available</td>
                                         </tr>
                                     @endforelse
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12 mt-3">
+                <div class="card">
+                    <div class="card-header">
+                        <h4>Productivity</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table id="example5" class="table table-condensed m-0 table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Submitted By</th>
+                                        <th>Subject</th>
+                                        <th>Description</th>
+                                        <th>Date</th>
+                                        <th>Start Time</th>
+                                        <th>End Time</th>
+                                        <th>Time Rendered</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($productivity as $data)
+                                    <tr>
+                                        <td>{{ $data->id }}</td>
+                                        <td>{{ $data->members->fullname }}</td>
+                                        <td>{{ $data->subject }}</td>
+                                        <td>{{ $data->description }}</td>
+                                        <td>{{ $data->added_date }}</td>
+                                        <td>{{ $data->start_time }}</td>
+                                        <td>{{ $data->end_time }}</td>
+                                        <td>{{ $data->time_rendered }}</td>
+                                    </tr>
+                                    @endforeach
+
                                 </tbody>
                             </table>
                         </div>

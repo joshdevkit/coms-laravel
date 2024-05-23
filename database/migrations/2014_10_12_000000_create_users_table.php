@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('type')->default('member');
             $table->string('avatar')->nullable();
             $table->integer('is_activated')->default(0);
+            $table->integer('is_deleted')->default(0);
             $table->rememberToken();
             $table->timestamps();
         });

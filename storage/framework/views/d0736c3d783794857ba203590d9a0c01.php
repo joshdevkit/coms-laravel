@@ -27,44 +27,45 @@
 <?php $component = $__componentOriginal9d57ad0dc6f99e1ae5e29fd903877614; ?>
 <?php unset($__componentOriginal9d57ad0dc6f99e1ae5e29fd903877614); ?>
 <?php endif; ?>
+
+
 <script>
     $(document).ready(function() {
-        $('#project_type').on('change', function() {
-            var type = $(this).val();
-            if (type === "Vertical Type") {
-                $('#for-length').removeClass('d-none')
-                $('#budget').removeClass('d-none')
-                $('#for-storey').addClass('d-none')
-                $('#selected_category_val')
-                    .empty()
-                    .append('<option value="Kalsada">Kalsada</option>')
-                    .append('<option value="Highway">Highway</option>')
-                    .append('<option value="Bridge">Bridge</option>');
-            } else {
-                $('#budget').removeClass('d-none')
-                $('#for-length').addClass('d-none')
-                $('#for-storey').removeClass('d-none')
-                $('#selected_category_val')
-                    .empty()
-                    .append('<option value="House">House</option>')
-                    .append('<option value="Condominium">Condominium</option>')
-                    .append('<option value="Apartment">Apartment</option>')
-                    .append('<option value="Government Facilities">Government Facilities</option>');
 
-                var maxStoreys = 100;
+    // Handle change event for project type
+    $('#project_type').on('change', function() {
+        var type = $(this).val();
+        if (type === "Horizontal Type") {
+            // If horizontal type, hide storey dropdown and show length input
+            $('#for-storey').addClass('d-none');
+            $('#length_id').removeClass('d-none');
+            // Update category options
+            $('#selected_category_val')
+                .empty()
+                .append('<option value="Kalsada">Kalsada</option>')
+                .append('<option value="Highway">Highway</option>')
+                .append('<option value="Bridge">Bridge</option>');
+        } else if (type === "Vertical Type") {
+            // If vertical type, hide length input and show storey dropdown
+            $('#for-storey').removeClass('d-none');
+            $('#length_id').addClass('d-none');
+            // Update category options
+            $('#selected_category_val')
+                .empty()
+                .append('<option value="House">House</option>')
+                .append('<option value="Condominium">Condominium</option>')
+                .append('<option value="Apartment">Apartment</option>')
+                .append('<option value="Government Facilities">Government Facilities</option>');
 
-                $('#storey-dropdown').empty();
-
-                for (var i = 1; i <= maxStoreys; i++) {
-                    var optionText = i + ' Storey';
-                    var optionValue = 'Storey ' + i;
-
-                    $('#storey-dropdown').append('<option value="' + optionValue + '">' + optionText +
-                        '</option>');
-                }
-
+            var maxStoreys = 100;
+            $('#storey-dropdown').empty();
+            for (var i = 1; i <= maxStoreys; i++) {
+                var optionText = i + ' Storey';
+                var optionValue = 'Storey ' + i;
+                $('#storey-dropdown').append('<option value="' + optionValue + '">' + optionText + '</option>');
             }
-        });
+        }
+    });
 
         $('#projectMembersSelect').select2({
             placeholder: 'Select project members',
@@ -107,7 +108,27 @@
 
     });
 </script>
+<script>
+    $(document).ready(function(){
+      $('#projectForm').submit(function(e){
+        e.preventDefault(); // Prevent form submission
+        $('#details_statis').removeClass('d-none')
+        // Get input values
+        var projectName = $('#projectName').val();
+        var totalArea = parseFloat($('#totalArea').val());
 
+        // Perform calculations
+        var bareTypeCost = totalArea * 25000;
+        var standardTypeCost = totalArea * 35000;
+        var luxuryTypeCost = totalArea * 45000;
+
+        $('#project_name').text('Cost Breakdown for '+ projectName)
+        $('#first_amount').text('₱ ' + bareTypeCost.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}))
+        $('#second_amount').text('₱ ' + standardTypeCost.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}))
+        $('#third_amount').text('₱ ' + luxuryTypeCost.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}))
+      });
+    });
+</script>
 <?php if(session('showModaladd')): ?>
     <script>
         $(document).ready(function() {

@@ -33,13 +33,8 @@
                     <div class="card-footer">
                         <div class="row">
                             <div class="col-sm-12 border-top">
-                                <a href="#" class="btn btn-primary btn-block">
+                                <a href="<?php echo e(route('admin.account-settings')); ?>" class="btn btn-primary btn-block">
                                     <i class="fas fa-cog mr-2"></i> Account Settings
-                                </a>
-                            </div>
-                            <div class="col-sm-12 border-top">
-                                <a href="#" class="btn btn-primary btn-block">
-                                    <i class="fas fa-users mr-2"></i> Change Password
                                 </a>
                             </div>
                             <div class="col-sm-12 border-top">

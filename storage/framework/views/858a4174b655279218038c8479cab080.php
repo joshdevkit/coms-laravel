@@ -35,10 +35,32 @@
                                 <tr>
                                     <td><?php echo e($row->id); ?></td>
                                     <td><?php echo e($row->project_name); ?></td>
-                                    <td></td>
-                                    <td><?php echo e($row->status); ?></td>
+                                    <td>
+                                        <div class="progress">
+                                            <?php if($row->totalPercentage == 100): ?>
+                                                <div class="progress-bar bg-success" role="progressbar"
+                                                    style="width: 100%;" aria-valuenow="100" aria-valuemin="0"
+                                                    aria-valuemax="100">100%</div>
+                                            <?php else: ?>
+                                                <div class="progress-bar <?php echo e($row->totalPercentage >= 1 && $row->totalPercentage <= 10 ? 'bg-danger' : ($row->totalPercentage >= 11 && $row->totalPercentage <= 20 ? 'bg-warning' : ($row->totalPercentage >= 21 && $row->totalPercentage <= 40 ? 'bg-info' : 'bg-success'))); ?>"
+                                                    role="progressbar" style="width: <?php echo e($row->totalPercentage); ?>%;"
+                                                    aria-valuenow="<?php echo e($row->totalPercentage); ?>" aria-valuemin="0"
+                                                    aria-valuemax="100"><?php echo e($row->totalPercentage); ?>%</div>
+                                            <?php endif; ?>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <?php if($row->totalPercentage == 100): ?>
+                                            Finished
+                                        <?php else: ?>
+                                            <?php echo e($row->status); ?>
+
+                                        <?php endif; ?>
+                                    </td>
                                     <td>
                                         <a href="<?php echo e(route('manager.project-details', ['id' => $row->id])); ?>" class="btn btn-sm btn-primary"><i class="fas fa-folder"></i> View</a>
+                                        <a href="<?php echo e(route('manager.project-estimator', ['id' => $row->id])); ?>" class="btn btn-sm btn-success"><i class="fas fa-plus"></i> Material Used</a>
+                                        <a href="<?php echo e(route('manager.project-files', ['id' => $row->id])); ?>" class="btn btn-sm btn-info"><i class="fas fa-folder"></i> File Management</a>
                                     </td>
                                 </tr>
                                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>

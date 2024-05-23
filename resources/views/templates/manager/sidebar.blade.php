@@ -29,11 +29,12 @@
                   <p>Project List</p>
                 </a>
               </li>
+
             </ul>
           </li>
 
           <li class="nav-item">
-            <a href="" class="nav-link">
+            <a href="{{ route('manager.reports') }}" class="nav-link">
               <i class="nav-icon fas fa-file"></i>
               <p>
                 Reports

@@ -5,8 +5,11 @@ namespace App\Http\Controllers\Admin;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Controllers\Controller;
 use App\Mail\NewUserWelcomeMail;
+use App\Models\ProjectMembers;
+use App\Models\TaskList;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 
@@ -72,5 +75,48 @@ class UserCrudController extends Controller
         $userdata = User::findOrFail($id);
 
         return view('admin.users.edit-data', compact('userdata'));
+    }
+
+
+    public function delete(Request $request, $removeId)
+    {
+        $user = User::findOrFail($removeId);
+
+        $avatarFileName = $user->avatar;
+
+        $avatarPath = public_path('avatars/' . $avatarFileName);
+
+        if (file_exists($avatarPath)) {
+            unlink($avatarPath);
+        }
+
+        TaskList::where('member_id', $removeId)->delete();
+        ProjectMembers::where('user_id', $removeId)->delete();
+
+        User::where('id', $removeId)->delete();
+
+        return redirect()->back()->with('success', 'User was removed successfully.');
+    }
+
+    public function disabled(Request $request)
+    {
+        $removeId = $request->input('userId');
+        $user = User::findOrFail($removeId);
+
+        $user->is_deleted = 1;
+        $user->save();
+
+        return redirect()->back()->with('success', 'User Account disabled successfully.');
+    }
+
+
+    public function activate(Request $request)
+    {
+        $removeId = $request->input('userId');
+        $user = User::findOrFail($removeId);
+
+        $user->is_deleted = 0;
+        $user->save();
+        return redirect()->back()->with('success', 'User Account restored successfully.');
     }
 }

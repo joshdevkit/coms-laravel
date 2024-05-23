@@ -193,17 +193,78 @@
                                                     Action
                                                 </button>
                                                 <div class="dropdown-menu" style="">
-                                                    <a class="dropdown-item view_task" href="javascript:void(0)"
-                                                        data-id="" data-task="">View</a>
                                                     <div class="dropdown-divider"></div>
-                                                    <a class="dropdown-item edit_task" href="javascript:void(0)"
-                                                        data-id="{{ $task->id }}">Edit</a>
+                                                    <button type="button" class="dropdown-item" data-toggle="modal"
+                                                        data-target="#editUserTask_{{ $task->id }}">Edit</button>
                                                     <div class="dropdown-divider"></div>
                                                     <a class="dropdown-item delete_task" href="javascript:void(0)"
-                                                        data-id="">Delete</a>
+                                                        data-id="{{ $task->id }}">Delete</a>
                                                 </div>
 
                                             </td>
+                                            <div class="modal fade" id="editUserTask_{{ $task->id }}" tabindex="-1"
+                                                aria-labelledby="editTaskLabel" aria-hidden="true">
+                                                <div class="modal-dialog modal-lg">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title" id="editTaskLabel">Edit Task</h5>
+                                                            <button type="button" class="close" data-dismiss="modal"
+                                                                aria-label="Close">
+                                                                <span aria-hidden="true">&times;</span>
+                                                            </button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <form method="POST"
+                                                                action="{{ route('manager.update-task') }}">
+                                                                @csrf
+                                                                <div class="form-group">
+                                                                    <label for="task_name">Task</label>
+                                                                    <input type="text" name="task_name"
+                                                                        value="{{ $task->task_name }}"
+                                                                        class="form-control">
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label for="member_id">Assign To</label>
+                                                                    <select name="member_id" id="member_id" class="form-control">
+                                                                        <option value="">Select Member</option>
+                                                                        @foreach ($members as $member)
+                                                                            <option value="{{ $member->members->id }}" {{ $member->members->id == $task->member_id ? 'selected' : '' }}>
+                                                                                {{ $member->members->fullname }}
+                                                                            </option>
+                                                                        @endforeach
+                                                                    </select>
+                                                                </div>
+
+
+                                                                <div class="form-group">
+                                                                    <label for="description">Description</label>
+                                                                    <textarea disabled class=" form-control summernote" name="description_selected" id="description_selected"
+                                                                        cols="30" rows="5">{{ $task->description }}</textarea>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label for="Status">Status</label>
+                                                                    <select name="status" id="selected_status" class="form-control form-select">
+                                                                        <option value="">Select Status</option>
+                                                                        <option value="Pending" {{ $task->status === 'Pending' ? 'selected' : '' }}>Pending</option>
+                                                                        <option value="On-going" {{ $task->status === 'On-going' ? 'selected' : '' }}>On-going</option>
+                                                                        <option value="On-Progress" {{ $task->status === 'On-Progress' ? 'selected' : '' }}>On-Progress</option>
+                                                                        <option value="Started" {{ $task->status === 'Started' ? 'selected' : '' }}>Started</option>
+                                                                        <option value="Done" {{ $task->status === 'Done' ? 'selected' : '' }}>Done</option>
+                                                                    </select>
+                                                                </div>
+
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <input type="hidden" name="taskId" value="{{ $task->id }}">
+                                                            <button type="button" class="btn btn-secondary"
+                                                                data-dismiss="modal">Close</button>
+                                                            <button type="submit" class="btn btn-primary">Update
+                                                                Task</button>
+                                                        </div>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </tr>
                                     @empty
                                         <tr>
@@ -289,79 +350,82 @@
         </div>
     </div>
 
-    <div class="modal fade" id="editTask" tabindex="-1" aria-labelledby="editTaskLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="editTaskLabel">Edit Task</h5>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-            <div class="modal-body">
 
-                <form method="POST" action="{{ route('manager.update-task') }}">
-                @csrf
-                <div class="form-group">
-                    <label for="task_name">Task</label>
-                    <input readonly type="text" name="task_name" id="task_name_selected"
-                        class="form-control">
-                </div>
-                <div class="form-group">
-                    <label for="member_id">Assign To</label>
-
-                </div>
-                <div class="form-group">
-                    <label for="description">Description</label>
-                    <textarea disabled class=" form-control summernote" name="description_selected"
-                        id="description_selected" cols="30" rows="5"></textarea>
-                </div>
-                <div class="form-group">
-                    <label for="Status">Status</label>
-                    <select name="status" id="selected_status" class="form-control form-select">
-
-                    </select>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <input  type="hidden" name="taskId" id="taskIdSelected">
-              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-              <button type="submit" class="btn btn-primary">Update Task</button>
-            </div>
-            </form>
-          </div>
-        </div>
-      </div>
-
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
         document.getElementById('formControlRange').addEventListener('input', function() {
             document.getElementById('rangeValue').textContent = this.value + '%';
         });
-        $(document).ready(function(){
-            $('.edit_task').on('click', function () {
-                var id = $(this).data('id');
-                console.log(id);
-                $('#editTask').modal('show');
+        // $(document).ready(function() {
+        //     $('.edit_task').on('click', function() {
+        //         var id = $(this).data('id');
+        //         console.log(id);
+        //         $('#editTask').modal('show');
 
-                $.ajax({
-                    url: `/manager/projects/retrieve-task/${id}`,
-                    type: 'GET',
-                    success: function (response) {
-                        console .log(response)
-                        $('#task_name_selected').val(response.task_name)
-                        $('#description_selected').summernote('code', response.description);
-                        $('#selected_status').empty().append(`
-                            <option value="Pending" ${response.status === 'Pending' ? 'selected' : ''}>Pending</option>
-                            <option value="On-going" ${response.status === 'On-going' ? 'selected' : ''}>On-going</option>
-                            <option value="On-Progress" ${response.status === 'On-Progress' ? 'selected' : ''}>On-Progress</option>
-                            <option value="Started" ${response.status === 'Started' ? 'selected' : ''}>Started</option>
-                            <option value="Done" ${response.status === 'Done' ? 'selected' : ''}>Done</option>
-                        `);
-                        $('#taskIdSelected').val(response.id)
-                    },
-                });
+        //         $.ajax({
+        //             url: `/manager/projects/retrieve-task/${id}`,
+        //             type: 'GET',
+        //             success: function(response) {
+        //                 console.log(response)
+        //                 $('#task_name_selected').val(response.task_name)
+        //                 $('#description_selected').summernote('code', response.description);
+        //                 $('#member_name').val(response.taskfor.fullname)
+        //                 $('#selected_status').empty().append(`
+    //                     <option value="Pending" ${response.status === 'Pending' ? 'selected' : ''}>Pending</option>
+    //                     <option value="On-going" ${response.status === 'On-going' ? 'selected' : ''}>On-going</option>
+    //                     <option value="On-Progress" ${response.status === 'On-Progress' ? 'selected' : ''}>On-Progress</option>
+    //                     <option value="Started" ${response.status === 'Started' ? 'selected' : ''}>Started</option>
+    //                     <option value="Done" ${response.status === 'Done' ? 'selected' : ''}>Done</option>
+    //                 `);
+        //                 $('#taskIdSelected').val(response.id)
+        //             },
+        //         });
+        //     });
+        // })
+        $('.delete_task').on('click', function() {
+            var DataId = $(this).data('id');
+            var csrfToken = $('meta[name="csrf-token"]').attr('content');
+            Swal.fire({
+                title: "Are you sure?",
+                text: "You won't be able to revert this!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Yes, delete it!"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: `/manager/projects/delete-task/${DataId}`,
+                        type: 'DELETE',
+                        headers: {
+                            'X-CSRF-TOKEN': csrfToken
+                        },
+                        dataType: 'json',
+                        success: function(response) {
+                            console.log(response)
+                            if (response.status == 200) {
+                                Swal.fire({
+                                    title: "Deleted!",
+                                    text: "Task has been Removed.",
+                                    icon: "success"
+                                });
+                                setTimeout(() => {
+                                    location.reload()
+                                }, 1500);
+                            }
+                        },
+                        error: function(xhr, status, error) {
+                            // Handle error response
+                            Swal.fire({
+                                title: "Error!",
+                                text: "An error occurred while deleting the task.",
+                                icon: "error"
+                            });
+                        }
+                    });
+                }
             });
-        })
+        });
     </script>
-
 @endsection

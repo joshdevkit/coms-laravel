@@ -33,24 +33,36 @@
             <div class="row">
                 <div class="col-lg-10 offset-lg-1">
                     <h3 class="mb-3">CONSTRUCTION MANAGEMENT SYSTEM</h3>
+                    <?php if(session('error')): ?>
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            <?php echo e(session('error')); ?>
+
+                            <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                aria-label="Close"></button>
+                        </div>
+                    <?php endif; ?>
                     <div class="bg-white shadow rounded">
                         <div class="row">
+
                             <div class="col-md-7 pe-0">
                                 <div class="form-left h-100 py-5 px-5">
                                     <form action="<?php echo e(route('login')); ?>" method="POST" class="row g-4">
                                         <?php echo csrf_field(); ?>
                                         <div class="col-12">
-                                            <label for="email" class="form-label">Email Address<span class="text-danger">*</span></label>
+                                            <label for="email" class="form-label">Email Address<span
+                                                    class="text-danger">*</span></label>
                                             <div class="input-group">
                                                 <div class="input-group-text"><i class="bi bi-person-fill"></i></div>
-                                                <input type="email" id="email" name="email" class="form-control <?php $__errorArgs = ['email'];
+                                                <input type="email" id="email" name="email"
+                                                    class="form-control <?php $__errorArgs = ['email'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
 if ($__bag->has($__errorArgs[0])) :
 if (isset($message)) { $__messageOriginal = $message; }
 $message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
 if (isset($__messageOriginal)) { $message = $__messageOriginal; }
 endif;
-unset($__errorArgs, $__bag); ?>" placeholder="Enter Email" value="<?php echo e(old('email')); ?>">
+unset($__errorArgs, $__bag); ?>"
+                                                    placeholder="Enter Email" value="<?php echo e(old('email')); ?>">
                                                 <?php $__errorArgs = ['email'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
 if ($__bag->has($__errorArgs[0])) :
@@ -65,17 +77,20 @@ unset($__errorArgs, $__bag); ?>
                                         </div>
 
                                         <div class="col-12">
-                                            <label for="password" class="form-label">Password<span class="text-danger">*</span></label>
+                                            <label for="password" class="form-label">Password<span
+                                                    class="text-danger">*</span></label>
                                             <div class="input-group">
                                                 <div class="input-group-text"><i class="bi bi-lock-fill"></i></div>
-                                                <input type="password" id="password" name="password" class="form-control <?php $__errorArgs = ['password'];
+                                                <input type="password" id="password" name="password"
+                                                    class="form-control <?php $__errorArgs = ['password'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
 if ($__bag->has($__errorArgs[0])) :
 if (isset($message)) { $__messageOriginal = $message; }
 $message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
 if (isset($__messageOriginal)) { $message = $__messageOriginal; }
 endif;
-unset($__errorArgs, $__bag); ?>" placeholder="Enter Password">
+unset($__errorArgs, $__bag); ?>"
+                                                    placeholder="Enter Password">
                                                 <?php $__errorArgs = ['password'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
 if ($__bag->has($__errorArgs[0])) :
@@ -91,17 +106,22 @@ unset($__errorArgs, $__bag); ?>
 
                                         <div class="col-sm-6">
                                             <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" id="inlineFormCheck" name="remember">
-                                                <label class="form-check-label" for="inlineFormCheck">Remember me</label>
+                                                <input class="form-check-input" type="checkbox" id="inlineFormCheck"
+                                                    name="remember">
+                                                <label class="form-check-label" for="inlineFormCheck">Remember
+                                                    me</label>
                                             </div>
                                         </div>
 
                                         <div class="col-sm-6">
-                                            <a href="#" class="float-end text-primary">Forgot Password?</a>
+                                            <a href="<?php echo e(route('password.request')); ?>"
+                                                class="float-end text-primary">Forgot Password?</a>
                                         </div>
 
+
                                         <div class="col-12">
-                                            <button type="submit" class="btn btn-primary w-100 px-4 float-end mt-4">Login</button>
+                                            <button type="submit"
+                                                class="btn btn-primary w-100 px-4 float-end mt-4">Login</button>
                                         </div>
                                     </form>
                                 </div>

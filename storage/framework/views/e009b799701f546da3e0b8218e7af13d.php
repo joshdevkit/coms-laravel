@@ -23,19 +23,27 @@
                 </h4>
             </div>
             <div class="card-body">
+                <?php if(session('success')): ?>
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        <?php echo e(session('success')); ?>
 
-                    <table id="example1" class="table striped table-hover">
-                        <thead>
-                            <tr>
-                                <th>PROJECT</th>
-                                <th>MANAGE BY</th>
-                                <th>PROJECT TYPE</th>
-                                <th>PROJECT CLASIFICATION</th>
-                                <th>ACTIONS</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php $__currentLoopData = $projects; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $row): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-text="true">&times;</span>
+                        </button>
+                    </div>
+                <?php endif; ?>
+                <table id="example1" class="table striped table-hover">
+                    <thead>
+                        <tr>
+                            <th>PROJECT</th>
+                            <th>MANAGE BY</th>
+                            <th>PROJECT TYPE</th>
+                            <th>PROJECT CLASIFICATION</th>
+                            <th>ACTIONS</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php $__currentLoopData = $projects; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $row): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                             <tr>
                                 <td><?php echo e($row->project_name); ?></td>
                                 <td><?php echo e($row->manager->fullname); ?></td>
@@ -48,16 +56,48 @@
                                             Actions
                                         </button>
                                         <div class="dropdown-menu">
-                                            <a class="dropdown-item" href="/admin/projects/view-details/<?php echo e($row->id); ?>">View</a>
-                                            <a class="dropdown-item" href="">Edit</a>
-                                            <a class="dropdown-item" href="#">Delete</a>
+                                            <a class="dropdown-item"
+                                                href="/admin/projects/view-details/<?php echo e($row->id); ?>">View</a>
+                                            <a class="dropdown-item"
+                                                href="/admin/projects/edit-details/<?php echo e($row->id); ?>">Edit</a>
+                                            <button type="button" class="dropdown-item" data-toggle="modal"
+                                                data-target="#confirmDeleteModal_<?php echo e($row->id); ?>">Delete</button>
+                                        </div>
+                                        <div class="modal fade" id="confirmDeleteModal_<?php echo e($row->id); ?>" tabindex="-1" role="dialog"
+                                            aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="confirmDeleteModalLabel">Confirm Delete
+                                                        </h5>
+                                                        <button type="button" class="close" data-dismiss="modal"
+                                                            aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        Are you sure you want to delete this project?
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary"
+                                                            data-dismiss="modal">Cancel</button>
+                                                        <form method="POST"
+                                                            action="<?php echo e(route('admin.delete-projects')); ?>"
+                                                            id="deleteForm">
+                                                            <?php echo csrf_field(); ?>
+                                                            <input type="hidden" name="projectId" value="<?php echo e($row->id); ?>">
+                                                            <button type="submit" class="btn btn-danger">Delete</button>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </td>
                             </tr>
-                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                        </tbody>
-                    </table>
+                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>

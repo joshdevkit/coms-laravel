@@ -41,12 +41,23 @@ class ProjectList extends Model
 
     public function getTotalPercentageAttribute(): int
     {
-        return $this->tasks()->whereIn('status', ['On-Progress', 'Done', 'Started'])->sum('percentage');
+        return $this->tasks()->where('status', 'Done')->sum('percentage');
+    }
+
+
+    public function members(): HasMany
+    {
+        return $this->hasMany(ProjectMembers::class, 'project_id', 'id');
     }
 
 
     public function tasks(): HasMany
     {
         return $this->hasMany(TaskList::class, 'project_id', 'id');
+    }
+
+    public function totalCost(): BelongsTo
+    {
+        return $this->belongsTo(ProjectMaterials::class, 'project_id', 'id');
     }
 }

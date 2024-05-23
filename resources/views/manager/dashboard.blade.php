@@ -42,15 +42,32 @@
                                     <td>{{ $row->id }}</td>
                                     <td>{{ $row->project_name }}</td>
                                     <td>
-                                        @if($row->totalTasks > 0)
-                                            <div class="progress">
-                                                <div class="progress-bar {{ $row->totalPercentage >= 1 && $row->totalPercentage <= 10 ? 'bg-danger' : ($row->totalPercentage >= 11 && $row->totalPercentage <= 20 ? 'bg-warning' : ($row->totalPercentage >= 21 && $row->totalPercentage <= 40 ? 'bg-info' : 'bg-success')) }}" role="progressbar" style="width: {{ $row->totalPercentage }}%;" aria-valuenow="{{ $row->totalPercentage }}" aria-valuemin="0" aria-valuemax="100">{{ $row->totalPercentage }}%</div>
-                                            </div>
+                                        <div class="progress">
+                                            @if ($row->totalPercentage == 100)
+                                                <div class="progress-bar bg-success" role="progressbar"
+                                                    style="width: 100%;" aria-valuenow="100" aria-valuemin="0"
+                                                    aria-valuemax="100">100%</div>
+                                            @else
+                                                <div class="progress-bar {{ $row->totalPercentage >= 1 && $row->totalPercentage <= 10 ? 'bg-danger' : ($row->totalPercentage >= 11 && $row->totalPercentage <= 20 ? 'bg-warning' : ($row->totalPercentage >= 21 && $row->totalPercentage <= 40 ? 'bg-info' : 'bg-success')) }}"
+                                                    role="progressbar" style="width: {{ $row->totalPercentage }}%;"
+                                                    aria-valuenow="{{ $row->totalPercentage }}" aria-valuemin="0"
+                                                    aria-valuemax="100">{{ $row->totalPercentage }}%</div>
+                                            @endif
+                                        </div>
+                                    </td>
+                                    <td>
+                                        @php
+                                            $totalPercentage = $row->tasks->sum('percentage');
+                                            $completedTasks = $row->tasks->where('status', 'Done')->count();
+                                            $totalTasks = $row->tasks->count();
+                                        @endphp
+
+                                        @if ($completedTasks > 0 && $totalPercentage == 100)
+                                            <span class="badge badge-sm bg-success">Finished</span>
                                         @else
-                                            0%
+                                            <span class="badge badge-sm bg-danger">Incomplete</span>
                                         @endif
                                     </td>
-                                    <td>{{ $row->status }}</td>
                                     <td>
                                         <a href="{{ route('manager.project-details', ['id' => $row->id]) }}" class="btn btn-sm btn-primary"><i class="fas fa-folder"></i> View</a>
                                     </td>
